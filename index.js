@@ -31,7 +31,7 @@ const createRequest = (input, callback) => {
     .then(function (response) {
       response.data.result =  response.status
       callback(response.status, jobRunID, response.status)
-      console.log(response);
+      //console.log(response);
     })
     .catch(function (error) {
       callback(200, jobRunID, 43)

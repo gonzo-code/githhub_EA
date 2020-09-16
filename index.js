@@ -1,44 +1,59 @@
 const { Requester, Validator } = require('@chainlink/external-adapter')
+const axios = require('axios');
 
+const customError = (data) => {
+  if (data.Response === 'Error') return true
+  return false
+}
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input)
   const jobRunID = validator.validated.id
 
-  const url = 'https://api.github.com/repos/octocat/hello-world/pulls/42/merge' // <-- this should return a 404 as it has not been merged
-  //`https://api.github.com/repos/smartcontractkit/chainlink/pulls/3365/merge` <--- this should return a 204 as it has not been merged
+  const url = `https://api.github.com/repos/smartcontractkit/chainlink/pulls/3365/merge`// <--- this should return a 204 as it has not been merged
 
+//'https://api.github.com/repos/octocat/hello-world/pulls/42/merge' // <-- this should return a 404 as it has not been merged
 
-
-  const params = {
-    //q
-    // fsym,
-    // tsyms
-  }
+  // const params = {
+  //   //q
+  //   // fsym,
+  //   tsyms
+  // }
+  const ignoreError = true
 
   const config = {
     url,
-    params
+    ignoreError
   }
 
-  // The Requester allows API calls be retry in case of timeout
-  // or connection failure
-  Requester.request(config)
-    .then(response => {
-      if (response.status == 204) {
-        response.data = "Merged"
-      }else {
-        response.data = "Not Merged"
-      }
+  axios.get(url)
+    .then(function (response) {
+      response.data.result =  response.status
+      callback(response.status, jobRunID, response.status)
+      console.log(response);
+    })
+    .catch(function (error) {
+      callback(200, jobRunID, 43)
+    //  console.log(error);
+    })
+    .then(function () {
+      console.log("Yayyyyyyyyyy")
+    });
 
-      console.log(response)
-      //callback(response.status, Requester.success(jobRunID, response.status))
-      callback(response.status, jobRunID, response)
-    })
-    .catch(error => {
-      callback(404, jobRunID, response.status)
-    })
+////////////////////////////////////////////////////////////////////////////////
+
+  // Requester.request(config, customError)
+  //   .then(response => {
+  //     console.log("BALLLLLLSSSSSSSS")
+  //     response.data.result =  Requester.validateResultNumber(response.status)
+  //     callback(response.status, Requester.success(jobRunID, response))
+  //   })
+  //   .catch(error => {
+  //     callback(500, Requester.errored(jobRunID, error))
+  //   })
+////////////////////////////////////////////////////////////////////////////////
+
 }
 
 // This is a wrapper to allow the function to work with

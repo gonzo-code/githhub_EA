@@ -11,15 +11,14 @@ const createRequest = (input, callback) => {
   const validator = new Validator(callback, input)
   const jobRunID = validator.validated.id
 
-  const url = `https://api.github.com/repos/smartcontractkit/chainlink/pulls/3365/merge`// <--- this should return a 204 as it has not been merged
+  //const url = 
 
-//'https://api.github.com/repos/octocat/hello-world/pulls/42/merge' // <-- this should return a 404 as it has not been merged
+  //'https://api.github.com/repos/octocat/hello-world/pulls/42/merge' // <-- this should return a 404 as it has not been merged
+  //`https://api.github.com/repos/smartcontractkit/chainlink/pulls/3365/merge`// <--- this should return a 204 as it has not been merged
+  //
 
-  // const params = {
-  //   //q
-  //   // fsym,
-  //   tsyms
-  // }
+
+
   const ignoreError = true
 
   const config = {
@@ -30,15 +29,16 @@ const createRequest = (input, callback) => {
   axios.get(url)
     .then(function (response) {
       response.data.result =  response.status
-      callback(response.status, jobRunID, response.status)
-      //console.log(response);
+      callback(204, jobRunID, response)
+      //console.log("Response is: " + response)
     })
     .catch(function (error) {
-      callback(200, jobRunID, 43)
-    //  console.log(error);
+      console.log(error)
+      callback(404, jobRunID, error)
+
     })
     .then(function () {
-      console.log("Yayyyyyyyyyy")
+      console.log("The result is ^")
     });
 
 ////////////////////////////////////////////////////////////////////////////////

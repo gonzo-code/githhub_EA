@@ -6,53 +6,58 @@ const customError = (data) => {
   return false
 }
 
+
+const customParams = {
+  owner: ['owner', 'master', 'coin'],
+  repo: ['repo', 'to', 'repository'],
+  pnumber: true
+}
+
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
-  const validator = new Validator(callback, input)
-  const jobRunID = validator.validated.id
 
-  //const url = 
+   const validator = new Validator(callback, input, customParams)
+   const jobRunID = validator.validated.id
+
+   const owns = validator.validated.data.owner
+   const repos = validator.validated.data.repo
+   const pnumber = validator.validated.data.pnumber
+
+
+  const url = `https://api.github.com/repos/${owns}/${repos}/pulls/${pnumber}/merge`
 
   //'https://api.github.com/repos/octocat/hello-world/pulls/42/merge' // <-- this should return a 404 as it has not been merged
   //`https://api.github.com/repos/smartcontractkit/chainlink/pulls/3365/merge`// <--- this should return a 204 as it has not been merged
-  //
 
 
+const params = {
+  owns,
+  repos,
+  pnumber
+}
 
   const ignoreError = true
 
   const config = {
     url,
+    params,
     ignoreError
   }
 
   axios.get(url)
     .then(function (response) {
       response.data.result =  response.status
-      callback(204, jobRunID, response)
-      //console.log("Response is: " + response)
+      callback(303, jobRunID, response)
+      //For what
     })
     .catch(function (error) {
       console.log(error)
       callback(404, jobRunID, error)
-
     })
     .then(function () {
       console.log("The result is ^")
     });
 
-////////////////////////////////////////////////////////////////////////////////
-
-  // Requester.request(config, customError)
-  //   .then(response => {
-  //     console.log("BALLLLLLSSSSSSSS")
-  //     response.data.result =  Requester.validateResultNumber(response.status)
-  //     callback(response.status, Requester.success(jobRunID, response))
-  //   })
-  //   .catch(error => {
-  //     callback(500, Requester.errored(jobRunID, error))
-  //   })
-////////////////////////////////////////////////////////////////////////////////
 
 }
 

@@ -12,7 +12,7 @@ app.post('/', (req, res) => {
   createRequest(req.body, (status, result) => {
     console.log('Result: ', result)
     console.log('Status: ', status)
-    res.status(status).json(status)
+    res.status(status).json({status, result})
     /// ^ I am using the status here to identify if a merge has happened or not
   })
 })

@@ -47,7 +47,7 @@ const params = {
   axios.get(url)
     .then(function (response) {
       response.data.result =  response.status
-      callback(303, jobRunID, response)
+      callback(206, jobRunID, response)
       //For what
     })
     .catch(function (error) {

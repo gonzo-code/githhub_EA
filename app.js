@@ -9,10 +9,11 @@ app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
   console.log('POST Data: ', req.body)
-  createRequest(req.body, (status, result) => {
+  createRequest(req.body, (status, result, jobRunID) => {
+    jobRunID = result
     console.log('Result: ', result)
     console.log('Status: ', status)
-    res.status(status).json({status, result})
+    res.status(status).json({status, result, jobRunID})
     /// ^ I am using the status here to identify if a merge has happened or not
   })
 })

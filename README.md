@@ -2,21 +2,13 @@
 
 This is a first draft of an external adaptor for a Chainlink Node that enables smart contracts to see if a PR has been merged in Github. 
 
-
-
 The Github API documentation can be found here: [Pulls - GitHub Docs](https://docs.github.com/en/rest/reference/pulls#check-if-a-pull-request-has-been-merged)
-
-
 
 If a PR has been merged then this external adaptor will return a 404 
 
 If a PR has NOT been merged then this external adaptor will return a 206 
 
-
-
-I know that is a bit confusing ;-) 
-
-
+I know that is a bit confusing  ;-) 
 
 ## Input Params
 
@@ -27,7 +19,7 @@ I know that is a bit confusing ;-)
 ## Output
 
 ```json
-{"status":206,"result":23}
+{"status":206,"result":23, "jobRunID": 23}
 ```
 
 ## Install Locally

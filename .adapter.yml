@@ -7,5 +7,5 @@ platforms:
   - GCP Functions
 data_sources:
   - name: GitHub
-  - url: https://github.com
+  - url: www.github.com
 

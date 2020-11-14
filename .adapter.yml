@@ -1,0 +1,14 @@
+name: Github PR Merge Check
+description: This External Adapter will enable a ChainLink node to check whether or not a pull request has been merged. If a PR has been merged then this external adaptor will return a 404. If a PR has NOT been merged then this external adaptor will return a 206... I know that is confusing but this is according to Github Documentation. 
+node_identifier: example
+platforms:
+  - Docker
+  - AWS Lambda
+  - GCP Functions
+data_sources:
+  - name: GitHub
+    url: https://github.com
+parameters:
+    owner: The owner of the repo
+    repo: The name of the repo
+    pnumber: The pull number for the PR
